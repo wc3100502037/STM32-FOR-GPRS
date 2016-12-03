@@ -1,0 +1,15 @@
+..\obj\speedsense.o: ..\HARDWARE\SpeedSense\SpeedSense.c
+..\obj\speedsense.o: ..\HARDWARE\SpeedSense\SpeedSense.h
+..\obj\speedsense.o: ..\SYSTEM\sys\sys.h
+..\obj\speedsense.o: ..\USER\stm32f10x.h
+..\obj\speedsense.o: ..\CORE\core_cm3.h
+..\obj\speedsense.o: C:\Keil_v5\ARM\ARMCC\bin\..\include\stdint.h
+..\obj\speedsense.o: ..\USER\system_stm32f10x.h
+..\obj\speedsense.o: ..\USER\stm32f10x_conf.h
+..\obj\speedsense.o: ..\STM32F10x_FWLib\inc\stm32f10x_dbgmcu.h
+..\obj\speedsense.o: ..\USER\stm32f10x.h
+..\obj\speedsense.o: ..\STM32F10x_FWLib\inc\stm32f10x_gpio.h
+..\obj\speedsense.o: ..\STM32F10x_FWLib\inc\stm32f10x_rcc.h
+..\obj\speedsense.o: ..\STM32F10x_FWLib\inc\stm32f10x_tim.h
+..\obj\speedsense.o: ..\STM32F10x_FWLib\inc\stm32f10x_usart.h
+..\obj\speedsense.o: ..\STM32F10x_FWLib\inc\misc.h
