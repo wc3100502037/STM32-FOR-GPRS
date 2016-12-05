@@ -4,36 +4,36 @@
 <h1>µVision Build Log</h1>
 <h2>Project:</h2>
 C:\Users\Administrator\Desktop\wheelirralitor\STM32-FOR-GPRS-master\STM32-FOR-GPRS-master\USER\USART.uvproj
-Project File Date:  12/04/2016
+Project File Date:  12/05/2016
 
 <h2>Output:</h2>
 Build target 'Target 1'
-compiling SIM900SMS.c...
-..\HARDWARE\SIM900\SIM900SMS.c(93): warning:  #550-D: variable "SMContentArray" was set but never used
-        u8 SMContentArray[20]={0};
-..\HARDWARE\SIM900\SIM900SMS.c: 1 warning, 0 errors
+compiling main.c...
+main.c(42): warning:  #177-D: variable "SMSFLAG" was declared but never referenced
+                u8 SMSFLAG=1,CheckFLAG=0;       
+main.c(198): warning:  #177-D: variable "flag" was declared but never referenced
+                int flag=0;
+main.c(244): warning:  #177-D: variable "SenseFre" was declared but never referenced
+      u16 SenseFre=FREQUERY_SIHGLE;
+main.c: 3 warnings, 0 errors
+compiling motor.c...
 linking...
-Program Size: Code=12540 RO-data=376 RW-data=292 ZI-data=1812  
+Program Size: Code=14242 RO-data=378 RW-data=292 ZI-data=1812  
 FromELF: creating hex file...
-"..\OBJ\USART.axf" - 0 Error(s), 1 Warning(s).
+"..\OBJ\USART.axf" - 0 Error(s), 3 Warning(s).
 Load "..\\OBJ\\USART.axf" 
 Erase Done.
 Programming Done.
 Verify OK.
 Application running ...
-S.c(93): warning:  #550-D: variable "SMContentArray" was set but never used
-        u8 SMContentArray[20]={0};
-..\HARDWARE\SIM900\SIM900SMS.c: 1 warning, 0 errors
+</pre>
+</body>
+</html>
+  #177-D: variable "SIM900_DATA" was declared but never referenced
+        char SIM900_DATA[]="DA";        
+..\SYSTEM\usart\usart.c: 1 warning, 0 errors
 linking...
-Program Size: Code=12552 RO-data=376 RW-data=292 ZI-data=1788  
-FromELF: creating hex file...
-"..\OBJ\USART.axf" - 0 Error(s), 4 Warning(s).
-Load "..\\OBJ\\USART.axf" 
-Erase Done.
-Programming Done.
-Verify OK.
-Application running ...
-RO-data=376 RW-data=292 ZI-data=1788  
+Program Size: Code=12544 RO-data=376 RW-data=292 ZI-data=1812  
 FromELF: creating hex file...
 "..\OBJ\USART.axf" - 0 Error(s), 5 Warning(s).
 Load "..\\OBJ\\USART.axf" 
@@ -41,8 +41,7 @@ Erase Done.
 Programming Done.
 Verify OK.
 Application running ...
-t occur
-..\HARDWARE\SpeedSense\SpeedSense.c: 1 warning, 0 errors
+peedSense\SpeedSense.c: 1 warning, 0 errors
 compiling SIM900SMS.c...
 ..\HARDWARE\SIM900\SIM900SMS.c(93): warning:  #550-D: variable "SMContentArray" was set but never used
         u8 SMContentArray[20]={0};

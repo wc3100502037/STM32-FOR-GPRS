@@ -12,8 +12,7 @@ void TIM3_PWM_Init(u16 arr,u16 psc)
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
  	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA , ENABLE);  
 	                                                                     	
-
-   
+  
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7; 
 	GPIO_InitStructure.GPIO_mode = GPIO_mode_AF_PP;  
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
@@ -31,7 +30,7 @@ void TIM3_PWM_Init(u16 arr,u16 psc)
 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable; 
 	TIM_OCInitStructure.TIM_Pulse = 0;
 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High; 
-	TIM_OC1Init(TIM3, &TIM_OCInitStructure);  
+	TIM_OC2Init(TIM3, &TIM_OCInitStructure);  
 
   TIM_CtrlPWMOutputs(TIM3,ENABLE);	
 
@@ -45,10 +44,10 @@ void TIM3_PWM_Init(u16 arr,u16 psc)
 }
 /************************************************************************************************************************/
 /*********************************output the actual speed value**********************************************************/
-extern u16 actualMotorSpeedMax;
+extern float actualMotorSpeedMax;
 void motor_out(u16 setValue)
 {
   u16 actualDutyValue;//实际占空比
-	actualDutyValue=(int)((setValue/actualMotorSpeedMax)*900);
+	actualDutyValue=(int)((setValue*1.0/actualMotorSpeedMax*1.0)*900.0);
 	TIM_SetCompare2(TIM3,actualDutyValue);
 }

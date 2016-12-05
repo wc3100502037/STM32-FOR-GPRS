@@ -12,15 +12,15 @@
 #include "SpeedSense.h"
 
 u8 judgeReadGPRSData(u8*);        //function declarm of check GPRS data
-u16 getActualSetSpeed(u8* );
-
+u16 getActualSetSpeedFromGSM(u8* );
+u16 getActualSetSpeedFromSM(u8 recSMValue[20]);
 /***********************************************************************************************************************/	
 /*                                         varial definetion                                                           */
 	u8 MAIN_FLAG_READSM_STATE=6;    //flag that indicates the stage of dealing SMS
 	u8 FLAG_GSM_DATA_COMING; //GPRSµ½À´±êÖ¾
 	extern u8 FLAG_SMS_CMD;         //¶ÌÐÅµ½À´±êÖ¾
 	u8 SMSLocationMode;             //¶ÌÐÅËùÔÚÄÚ´æÎ»ÖÃ£¬0 for less than 10,1 for more than 10,2 for nothing
-	u16 actualMotorSpeedMax=3500;   //Êµ¼Êµç»ú×î´ó×ªËÙÉèÖÃ
+	float actualMotorSpeedMax=3500.00;   //Êµ¼Êµç»ú×î´ó×ªËÙÉèÖÃ,×¢Òâ¶¨Òå³É¸¡µãÊý
 	u16 FREQUERY_SIHGLE;            //²âÁ¿µÃµ½µÄspeed ÆµÂÊ
 	u8  FLAG_SENSESPEED_CMD=1;      //put into Timer function to let sensenspeed function execute at every 1 minute
 	u8 SMContentArray[20]={0};      //·ÅÈë¶ÌÐÅÊµ¼ÊÄÚÈÝ
@@ -128,7 +128,9 @@ int main(void)
 		{
 		     case 0:LED0_RUN(5);break;//flash 5 timers,not receive "+CMGR" 
 				 case 1:LED0_RUN(6);break;//received SM,but has not the right format;flash 6 timers ;RED FLASH
-				 case 2:LED0_RUN(7);break;//received right format SM,flash 7 timers.RED FLASH
+				 case 2:LED0_RUN(7);
+			          motor_out(getActualSetSpeedFromSM(SMContentArray));        
+			          break;//received right format SM,flash 7 timers.RED FLASH
 			   default: break;		
 		}
 		MAIN_FLAG_READSM_STATE=255;// reset to default value	
@@ -200,7 +202,7 @@ u8 judgeReadGPRSData(u8* rcvData)
 			 //LED0_RUN(8);//ÉÁ8Ï
 			 return 1;//right preset code,and reurn 1
 			}
-			return 255;//wrong code,return 255
+			 return 255;//wrong code,return 255
 	}
 /***************************************************************************************************************************/
 
@@ -208,7 +210,7 @@ u8 judgeReadGPRSData(u8* rcvData)
 
 /***************************************************************************************************************************/
 /*                          handle the gprs data to the right speed                                                        */
-u16 getActualSetSpeed(u8* rcvData)
+u16 getActualSetSpeedFromGSM(u8* rcvData)
 {
 		int actualSpeedValue=0;
 		actualSpeedValue=rcvData[1]*256+rcvData[2];
@@ -218,6 +220,22 @@ u16 getActualSetSpeed(u8* rcvData)
 /***************************************************************************************************************************/
 /*                         end of handle the gprs data to the right speed                                                  */
 /***************************************************************************************************************************/
+
+
+/***************************************************************************************************************************/
+/*                                get the right speed value from SM                                                         */
+u16 getActualSetSpeedFromSM(u8 recSMValue[20])
+{
+		u16 actualSpeedValue=0;
+		u16 first4Value;//first 4 value of SM content
+	  first4Value=(recSMValue[3]-0x30)+(recSMValue[2]-0x30)*10+(recSMValue[1]-0x30)*100+(recSMValue[0]-0x30)*1000;
+	  actualSpeedValue=first4Value;
+		return actualSpeedValue;
+
+}
+/******************************************************************************************************************************/
+
+
 
 /***************************************************************************************************************************/
 /********************************************Get the Actual Speed by Frequency**************************************************************************/
