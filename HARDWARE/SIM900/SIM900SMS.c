@@ -90,7 +90,7 @@ u8 SIM900_Read_Text()
 { u8 HighBit,LowBit;
 	
 	u8 count=0;
-	u8 INFO64[20]={0};
+	u8 SMContentArray[20]={0};
 	u8 i=0;
 	
  if(strstr((const char*)USART_RX_BUF,(const char*)SIM900_SMSREAD))//判断是否+CMTI，有短信到来
@@ -117,7 +117,7 @@ u8 SIM900_Read_Text()
    /*读取短信实际内容，放入INFO64数组*/	
 	 for(i=0;i<20;i++)
 	 {
-	  INFO64[i]=USART_RX_BUF[64+i];
+	  SMContentArray[i]=USART_RX_BUF[64+i];
 	 
 	 }
 	 
@@ -127,26 +127,26 @@ u8 SIM900_Read_Text()
 return 1;
 }
 /*               above is the test code                                                                   */
+/*****************************************************************************************************************************/
 
 
-extern u8 SMSLocationMode;//判断接收短信的所在位置，10为分隔线
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/************************************************************************************************************************************/
 /*读取短信 实际内容  */
+extern u8 SMSLocationMode;//判断接收短信的所在位置，10为分隔线
+u8 SMContentArray[20]={0};//放入短信实际内容
 u8 FLAG_SMS_CMD=0;//判断是否短信服务
-u8 SIM900_READ_TEXT_TEST(u8 SMSLocationMode)
+u8 SIM900_READ_SM(u8 SMSLocationMode)
 { u8 count=0;
-	u8 INFO64[20]={0};//放入短信实际内容
+	
 	u8 i=0;
-	u8 flag=9;//判断短信位置
+	//u8 flag=9;//判断短信位置
+	u8 FLAG_SM_CHECKFORMAT=0;//check the SM format to ensure correction of content
 	u8 HighBit;//位置高位
 	u8 LowBit;//位置低位
 	u8 Hex[10]={0x0,0x1,0x2,0x3,0x4,0x5,0x6,0x7,0x8,0x9};//mask,to extract the factual data
 	
 	if(SMSLocationMode==1)
-		{//SHIWEI
+		{//SM length more than 10
       HighBit=USART_RX_BUF[12];
 	    LowBit=USART_RX_BUF[13];
 	    HighBit=Hex[HighBit-0x30];
@@ -163,41 +163,42 @@ u8 SIM900_READ_TEXT_TEST(u8 SMSLocationMode)
 	    printf("%s%x\r\n\r\n",SIM900_READTEXTCMD,HighBit);
 	}else 
   {
-		return 9;
+		  return 9;
 	}
 
-   while(strstr((const char*)USART_RX_BUF,(const char*)SIM900_SMSREADCONT)==NULL)//读取短信实际内容，10秒无返回CMGR则return 0
-{ 
+   while(strstr((const char*)USART_RX_BUF,(const char*)SIM900_SMSREADCONT)==NULL)// 读取短信实际内容,
+{ //JUDGE THE CONTENT BY CMGR,NOT IN THE SERIAL PORT SEGMENT                     // 10秒无返回CMGR则return 0
      delay_ms(100);
 		 count++;
 		 if(count>100)
 		 {
-		  count=0;
-			return 0;//5下
+		   count=0;
+			 return 0;//stop at this stage,return 0 means led flash 5 times
 		 }
 }
    delay_ms(200);
- /* 读取短信实际内容*/
+
+ /*                 This stage means having got through check stage,Read the SM actual content              */
 	 for(i=0;i<20;i++)
 	 {
-	  INFO64[i]=USART_RX_BUF[64+i];
-	  if(i==19) flag=1;//6下
+	   //SMContentArray[i]=USART_RX_BUF[64+i];
+	   SMContentArray[i]=USART_RX_BUF[4+i];
+		 if(i==19) 
+		 FLAG_SM_CHECKFORMAT=1;//6下
 	 }
 
- /*短信接收数据， 监测是否11** 2*** 3*** 4**** */	 
-if((INFO64[0]==0x31)&&(INFO64[1]==0x31)&&(INFO64[4]==0x32)&&(INFO64[8]==0x33)&&(INFO64[12]==0x34))//检测短信内容
-{
- LED0_RUN(8);//闪8下
- flag=2;//7下
+ /*                 check the preset format of SM,  监测是否11** 2*** 3*** 4****                              */	 
+  if((SMContentArray[4]==0x32)&&(SMContentArray[8]==0x33)&&(SMContentArray[12]==0x34))//检测短信内容
+{//(SMContentArray[0]==0x31)&&(SMContentArray[1]==0x31)&&
+   //LED0_RUN(8);//闪8下
+   FLAG_SM_CHECKFORMAT=2;//7下
 }
-return flag;
+  return FLAG_SM_CHECKFORMAT;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*                                       clear the data buffer                                   */
+
+/*********************************************************************************************************************************/
+/*                                                     clear the data buffer                                                    */
 void Clear_USART_RX_BUF()
 { u8 i=0;
   for(i=0;i<30;i++)

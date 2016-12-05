@@ -4,41 +4,53 @@
 <h1>µVision Build Log</h1>
 <h2>Project:</h2>
 C:\Users\Administrator\Desktop\wheelirralitor\STM32-FOR-GPRS-master\STM32-FOR-GPRS-master\USER\USART.uvproj
-Project File Date:  12/02/2016
+Project File Date:  12/04/2016
 
 <h2>Output:</h2>
 Build target 'Target 1'
-compiling main.c...
-main.c(38): warning:  #177-D: variable "SMSFLAG" was declared but never referenced
-   {u8 SMSFLAG=1,CheckFLAG=0;   
-main.c(191): warning:  #177-D: variable "flag" was declared but never referenced
-        int flag=0;
-main.c(222): warning:  #177-D: variable "SenseFre" was declared but never referenced
-      u16 SenseFre=FREQUERY_SIHGLE;
-main.c: 3 warnings, 0 errors
-compiling SpeedSense.c...
-..\HARDWARE\SpeedSense\SpeedSense.c(64): warning:  #174-D: expression has no effect
-                                if(TIM2,TIM_GetITStatus(TIM2,TIM_IT_Update)!=SET)//timer2 update interrupt not occur
-..\HARDWARE\SpeedSense\SpeedSense.c: 1 warning, 0 errors
+compiling SIM900SMS.c...
+..\HARDWARE\SIM900\SIM900SMS.c(93): warning:  #550-D: variable "SMContentArray" was set but never used
+        u8 SMContentArray[20]={0};
+..\HARDWARE\SIM900\SIM900SMS.c: 1 warning, 0 errors
 linking...
-Program Size: Code=12624 RO-data=376 RW-data=300 ZI-data=1788  
+Program Size: Code=12540 RO-data=376 RW-data=292 ZI-data=1812  
+FromELF: creating hex file...
+"..\OBJ\USART.axf" - 0 Error(s), 1 Warning(s).
+Load "..\\OBJ\\USART.axf" 
+Erase Done.
+Programming Done.
+Verify OK.
+Application running ...
+S.c(93): warning:  #550-D: variable "SMContentArray" was set but never used
+        u8 SMContentArray[20]={0};
+..\HARDWARE\SIM900\SIM900SMS.c: 1 warning, 0 errors
+linking...
+Program Size: Code=12552 RO-data=376 RW-data=292 ZI-data=1788  
 FromELF: creating hex file...
 "..\OBJ\USART.axf" - 0 Error(s), 4 Warning(s).
-</pre>
-</body>
-</html>
-rning(s).
-Target not created
-ile...
+Load "..\\OBJ\\USART.axf" 
+Erase Done.
+Programming Done.
+Verify OK.
+Application running ...
+RO-data=376 RW-data=292 ZI-data=1788  
+FromELF: creating hex file...
 "..\OBJ\USART.axf" - 0 Error(s), 5 Warning(s).
-0 Error(s), 5 Warning(s).
-INFO64" was set but never used
-        u8 INFO64[20]={0};
+Load "..\\OBJ\\USART.axf" 
+Erase Done.
+Programming Done.
+Verify OK.
+Application running ...
+t occur
+..\HARDWARE\SpeedSense\SpeedSense.c: 1 warning, 0 errors
+compiling SIM900SMS.c...
+..\HARDWARE\SIM900\SIM900SMS.c(93): warning:  #550-D: variable "SMContentArray" was set but never used
+        u8 SMContentArray[20]={0};
 ..\HARDWARE\SIM900\SIM900SMS.c: 1 warning, 0 errors
 compiling delay.c...
 compiling sys.c...
 compiling usart.c...
-..\SYSTEM\usart\usart.c(156): warning:  #177-D: variable "SIM900_DATA" was declared but never referenced
+..\SYSTEM\usart\usart.c(163): warning:  #177-D: variable "SIM900_DATA" was declared but never referenced
         char SIM900_DATA[]="DA";        
 ..\SYSTEM\usart\usart.c: 1 warning, 0 errors
 compiling core_cm3.c...
@@ -49,11 +61,11 @@ compiling stm32f10x_usart.c...
 compiling misc.c...
 compiling stm32f10x_tim.c...
 linking...
-Program Size: Code=12284 RO-data=376 RW-data=264 ZI-data=1784  
-FromELF: creating hex file...
-"..\OBJ\USART.axf" - 0 Error(s), 7 Warning(s).
-_tim.c...
-linking...
-Program Size: Code=12284 RO-data=376 RW-data=264 ZI-data=1784  
+Program Size: Code=12600 RO-data=376 RW-data=292 ZI-data=1788  
 FromELF: creating hex file...
 "..\OBJ\USART.axf" - 0 Error(s), 8 Warning(s).
+Load "..\\OBJ\\USART.axf" 
+Erase Done.
+Programming Done.
+Verify OK.
+Application running ...

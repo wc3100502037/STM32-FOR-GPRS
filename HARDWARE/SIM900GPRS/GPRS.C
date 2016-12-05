@@ -31,7 +31,7 @@ u8   SIM900_ENDOFSENDGSM=0x1A;
 /**********************************************************************************************************/
 /*                                 STEP 1                                                                 */
 /*                                 GPRS初始化                                                             */
-u8 SIM900_GPRS_Init()
+u8 SIM900_Init()
 { u8 count=0;
 	Clear_USART_RX_BUF();	
 	printf("%s\r\n\r\n",SIM900_CGCLASS);//发送AT+CGCLASS=\"B\"
@@ -120,6 +120,7 @@ u8 establishTCPLink()
 /*                                   读取GPRS传输回来的数据                                               */
 /*                              This function read gsm data                                               */
 /*                    #prameter :1 for receiveed date array,2 for flag of whether gsm data coming         */
+/**********************************************************************************************************/
 extern u8 FLAG_GSM_DATA_COMING;
 u8 GPRS_GSM_READDATA(u8* rcvData,u8 flagRUN)
 { 

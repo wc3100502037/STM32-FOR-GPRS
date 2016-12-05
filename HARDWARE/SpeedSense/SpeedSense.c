@@ -76,7 +76,7 @@ void TIM2_IRQHandler(void)
 			     FLAG_Capture=0;
 			}
 			FREQUERY_SIHGLE=1000000/SUM_TIMER_COUNTER;
-    /*	intended to sum the frequency by 50	
+    /*	intended to sum the frequency by 50	times
 			if(SUM_TIMER_COUNTER!=0)//amount of timer counter between two high rising
 		 {
 		   FREQUERY_SIHGLE=1000000/SUM_TIMER_COUNTER;
@@ -92,12 +92,12 @@ void TIM2_IRQHandler(void)
      */
 	}
    TIM_ClearITPendingBit(TIM2, TIM_IT_CC1|TIM_IT_Update); //清除中断标志位
-   TIM_Cmd(TIM2,DISABLE);//disable next interrupt unless set able
+   TIM_Cmd(TIM2,DISABLE);                                 //disable  interrupt unless set able
 }
+
 extern u8 FLAG_SENSESPEED_CMD;
 void setSenseSpeedCmd()
 {
- if(FLAG_SENSESPEED_CMD==1)
-	TIM_Cmd(TIM2,ENABLE);
-
+  if(FLAG_SENSESPEED_CMD==1)
+	 TIM_Cmd(TIM2,ENABLE);
 }

@@ -144,10 +144,10 @@ u8 i=0;                  //flag of data length to indicate received data
 u8 FLAG_SM_Received=0;   //flag of small message coming,if set to 1 means A message come  
 u8 FLAG_OK=0;            //ordinary OK flag indicates the right return OK
 u8 FLAG_GSM_CONNECTED=0; //flag of GSM connection,if succeed to a server than set to 1. 
-u8 SMSREADTEST=6;
+u8 MAIN_FLAG_READSM_STATE=6;
 extern u8 SMSLocationMode;       //SMS location flag,to judge location number of SMS,0 for less than 10 and 1 for more than 10
-u8 FLAG_GSM_DATA_COMING;           //flag of GPRS data coming,changed by usart received data 
-extern u8 FLAG_SMS_CMD;
+u8 FLAG_GSM_DATA_COMING;         //flag of GPRS data coming,changed by usart received data 
+extern u8 FLAG_SMS_CMD;          //
 /* 0x43->C,0x4d->M,0x4f->O   */
 /* 0x54->T,0x49->I,0x47->G   */
 /* 0x52->R ,0x4b->K          */
@@ -189,16 +189,15 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 			                FLAG_SM_Received=1;	//There is message coming,flag is set.
                     // FLAG_SMS_CMD=1;				
 			             }else if(((USART_RX_BUF[i-1]==0x0a)&&(USART_RX_BUF[i-2]==0x0d)&&(USART_RX_BUF[i-4]==0x4f)&&(USART_RX_BUF[i-3]==0x4b)))//接收到OK\r\n
-			                  {//接收到OK\r\n
-				                 
+			                  {//接收到OK\r\n				                 
 				                  FLAG_OK=1;	
 				                  //  LED0_RUN(2);  
 				                  FLAG_GSM_DATA_COMING=1;
 			                    i=0;
 			                  }else if((USART_RX_BUF[i-3]==0x41)&&(USART_RX_BUF[i-4]==0x44))//DA\r\n
 			                        {/*self-customized datagram ended by DA\r\n that indicates GSM data coming*/
-																// GPRS有数据传过来
-				                       //LED1_RUN(1);
+															// GPRS有数据传过来
+				                      //LED1_RUN(1);
 				                         i=0;
 				                         FLAG_GSM_DATA_COMING=1;
 			                        }
@@ -208,12 +207,13 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 		        i=0;
 				    FLAG_GSM_CONNECTED=1;
 				    FLAG_WHEN_Execute_EstabTCPLink=0;//reset to 0 
-			   }		
+			   }
+				 
 /*strstr(str1,str2)用于判断str2是否是str1的子串并返回首次出现的位置，未找到返回false                           */
 /*SIM900_SMSREAD[]="CMTI"                                                                                      */
     if((strstr((const char*)USART_RX_BUF,(const char*)SIM900_SMSREAD)!=NULL)&&(FLAG_SM_Received==1))
 		  {/*this segment handle Small Message Service*/
-				LED0_RUN(2);//串口工作则红灯闪烁2下
+			//LED0_RUN(2);//串口工作则红灯闪烁2下
 				if((USART_RX_BUF[13]==0x0d)&&(USART_RX_BUF[14]==0x0a)) SMSLocationMode=0;//个位短信条数在十条以内
 				else if((USART_RX_BUF[14]==0x0d)&&(USART_RX_BUF[15]==0x0a)) SMSLocationMode=1;//十位，短信条数在十条以上。
 		    else SMSLocationMode=2;
