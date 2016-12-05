@@ -144,9 +144,9 @@ u8 i=0;                  //flag of data length to indicate received data
 u8 FLAG_SM_Received=0;   //flag of small message coming,if set to 1 means A message come  
 u8 FLAG_OK=0;            //ordinary OK flag indicates the right return OK
 u8 FLAG_GSM_CONNECTED=0; //flag of GSM connection,if succeed to a server than set to 1. 
-u8 MAIN_FLAG_READSM_STATE=6;
+extern u8 MAIN_FLAG_READSM_STATE;
 extern u8 SMSLocationMode;       //SMS location flag,to judge location number of SMS,0 for less than 10 and 1 for more than 10
-u8 FLAG_GSM_DATA_COMING;         //flag of GPRS data coming,changed by usart received data 
+extern u8 FLAG_GSM_DATA_COMING;         //flag of GPRS data coming,changed by usart received data 
 extern u8 FLAG_SMS_CMD;          //
 /* 0x43->C,0x4d->M,0x4f->O   */
 /* 0x54->T,0x49->I,0x47->G   */

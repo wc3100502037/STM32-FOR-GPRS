@@ -16,13 +16,15 @@ u16 getActualSetSpeed(u8* );
 
 /***********************************************************************************************************************/	
 /*                                         varial definetion                                                           */
-	extern u8 MAIN_FLAG_READSM_STATE;
-	extern u8 FLAG_GSM_DATA_COMING;   //GPRS到来标志
+	u8 MAIN_FLAG_READSM_STATE=6;    //flag that indicates the stage of dealing SMS
+	u8 FLAG_GSM_DATA_COMING; //GPRS到来标志
 	extern u8 FLAG_SMS_CMD;         //短信到来标志
 	u8 SMSLocationMode;             //短信所在内存位置，0 for less than 10,1 for more than 10,2 for nothing
 	u16 actualMotorSpeedMax=3500;   //实际电机最大转速设置
-	u16 FREQUERY_SIHGLE;           //测量得到的speed 频率
+	u16 FREQUERY_SIHGLE;            //测量得到的speed 频率
 	u8  FLAG_SENSESPEED_CMD=1;      //put into Timer function to let sensenspeed function execute at every 1 minute
+	u8 SMContentArray[20]={0};      //放入短信实际内容
+	u8 FLAG_SMS_CMD=0;              //判断是否短信服务
 /***********************************************************************************************************************/	
 
 
@@ -53,7 +55,7 @@ int main(void)
 		uart_init(9600);	                             //串口初始化为9600
 		FLAG_SIM900_Init=SIM900_Init();                //STEP 1 to initiate GPRS function
 		LED_Init();		  	                             //初始化与LED连接的硬件接口 
-	//	TIM1_PWM_Init(899,0);                          //电机输出，占空周期900
+		TIM3_PWM_Init(899,0);                          //电机输出，占空周期900
 	//	TIM2_Cap_Init(0xffff,72-1);                    //速度频率输入
 		/*Both LED is off in high */
 		LED0=1;//RED 
@@ -126,7 +128,7 @@ int main(void)
 		{
 		     case 0:LED0_RUN(5);break;//flash 5 timers,not receive "+CMGR" 
 				 case 1:LED0_RUN(6);break;//received SM,but has not the right format;flash 6 timers ;RED FLASH
-				 case 2:LED0_RUN(7);break;//rece      BNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN                                                                                                               BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBived right format SM,flash 8 timers.RED FLASH
+				 case 2:LED0_RUN(7);break;//received right format SM,flash 7 timers.RED FLASH
 			   default: break;		
 		}
 		MAIN_FLAG_READSM_STATE=255;// reset to default value	

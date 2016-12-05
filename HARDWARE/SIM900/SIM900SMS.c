@@ -54,7 +54,8 @@ u8 SIM900_SendSMS()
 	/*发送AT+CMGF=1\r\n，判断是否OK，*/
 	printf("AT+CMGF=1\r\n");
 	while((strstr((const char*)USART_RX_BUF,(const char*)SIM900_OK))==NULL)
-	{ delay_ms(100);
+	{ 
+		delay_ms(100);
 		count++;
 		if(count>30)
 		{ 
@@ -118,10 +119,7 @@ u8 SIM900_Read_Text()
 	 for(i=0;i<20;i++)
 	 {
 	  SMContentArray[i]=USART_RX_BUF[64+i];
-	 
 	 }
-	 
-	
  }else return 0;
 
 return 1;
@@ -133,8 +131,8 @@ return 1;
 /************************************************************************************************************************************/
 /*读取短信 实际内容  */
 extern u8 SMSLocationMode;//判断接收短信的所在位置，10为分隔线
-u8 SMContentArray[20]={0};//放入短信实际内容
-u8 FLAG_SMS_CMD=0;//判断是否短信服务
+extern u8 SMContentArray[20];//放入短信实际内容
+extern u8 FLAG_SMS_CMD;//判断是否短信服务
 u8 SIM900_READ_SM(u8 SMSLocationMode)
 { u8 count=0;
 	
@@ -181,8 +179,9 @@ u8 SIM900_READ_SM(u8 SMSLocationMode)
  /*                 This stage means having got through check stage,Read the SM actual content              */
 	 for(i=0;i<20;i++)
 	 {
-	   //SMContentArray[i]=USART_RX_BUF[64+i];
-	   SMContentArray[i]=USART_RX_BUF[4+i];
+	  SMContentArray[i]=USART_RX_BUF[i];
+		 //SMContentArray[i]=USART_RX_BUF[64+i];
+	  // SMContentArray[i]=USART_RX_BUF[4+i];
 		 if(i==19) 
 		 FLAG_SM_CHECKFORMAT=1;//6下
 	 }
@@ -193,7 +192,7 @@ u8 SIM900_READ_SM(u8 SMSLocationMode)
    //LED0_RUN(8);//闪8下
    FLAG_SM_CHECKFORMAT=2;//7下
 }
-  return FLAG_SM_CHECKFORMAT;
+   return FLAG_SM_CHECKFORMAT;
 }
 
 

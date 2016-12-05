@@ -15,6 +15,6 @@
 //All rights reserved									  
 //********************************************************************************
 
-void TIM1_PWM_Init(u16,u16);
+void TIM3_PWM_Init(u16,u16);
 void motor_out(u16);
 #endif
